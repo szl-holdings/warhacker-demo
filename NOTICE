@@ -1,0 +1,7 @@
+warhacker-demo
+Copyright 2026 SZL Holdings
+
+Licensed under the Apache License, Version 2.0.
+Author: Yachay <yachay@szlholdings.dev>
+Consumes the cosign-signed UDS bundle szl-warhacker-uds-v1.0.0.
+Doctrine v11 LOCKED (749/14/163).
