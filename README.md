@@ -109,7 +109,4 @@ which `demo_run.sh` sources.
 
 ## Doctrine note
 
-v11 (**749/14/163**) is the public LOCKED doctrine and the canonical numbers for the
-demo. The v12 STATUS PRs (which would move the numbers to **781/14/194**, same 14
-axioms) are open but not merged at build time, so this packet quotes v11. If those
-STATUS PRs land before the demo, swap to v12 numbers.
+v11 (**749/14/163**) is the public LOCKED doctrine and the canonical numbers for this demo. Doctrine v11 749/14/163 at kernel commit `c7c0ba17` — Λ = Conjecture 1 (not a theorem) · SLSA L1 honest.
