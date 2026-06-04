@@ -1,5 +1,7 @@
 # warhacker-demo
 
+> ⚠️ **STAGING — not production-grade.** This repository is a demo/dry-run surface and should not be treated as a production deployment.
+
 SOVEREIGN demo dry-run for the NVIDIA RTX 4060 Ti tower (Warhacker, June 16–19).
 One command verifies the tower; one command runs the demo. Real shell scripts —
 nothing narrative.
