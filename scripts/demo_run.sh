@@ -16,8 +16,10 @@ PORT="${PORT:-8080}"
 BUNDLE="${BUNDLE:-$WORKDIR/bundle.tar.zst}"
 READY_TIMEOUT="${READY_TIMEOUT:-120}"   # seconds per organ
 
-# The 7 flagship organs + the local LLM organ. namespace==deployment name.
-ORGANS=(a11oy amaru sentra rosie killinchu vessels hatun-mcp local-llm)
+# The 5 flagship organs in szl-mesh:v0.4.0. namespace = szl-<organ>, deployment name = szl-<organ>.
+# NOTE: vessels (phawaq) is deferred — no GHCR image published yet. hatun-mcp and local-llm
+# are not in the v0.4.0 bundle. Remove from this list once phawaq image is published.
+ORGANS=(szl-a11oy szl-sentra szl-amaru szl-rosie szl-killinchu)
 
 c_ok="\033[32m"; c_warn="\033[33m"; c_err="\033[31m"; c_hdr="\033[36m"; c_off="\033[0m"
 say()  { printf "${c_hdr}==>${c_off} %s\n" "$*"; }
@@ -101,11 +103,11 @@ cat <<RECIPE
   1. cosign verify-blob --key cosign.pub --signature bundle.tar.zst.sig bundle.tar.zst
         -> Verified OK
 
-  2. zarf package inspect bundle.tar.zst
-        -> a11oy / amaru / sentra / killinchu / rosie governance components
+  2. uds inspect oci://ghcr.io/szl-holdings/szl-mesh:v0.4.0
+        -> szl-a11oy / szl-sentra / szl-amaru / szl-rosie / szl-killinchu packages (5 × sha256 refs)
 
-  3. curl -X POST localhost:${PORT}/api/killinchu/uds/v1/mission/execute \\
-        -d '{"action":"threat_assess","payload":{"track_id":"4840D6"}}'
+  3. curl -X POST localhost:${PORT}/api/killinchu/v1/counter-uas/evaluate \\
+        -d '{"track_id":"4840D6","lat":32.7,"lon":-117.2,"alt_m":120,"speed_ms":15}'
         -> DSSE-signed verdict + Khipu 3-of-4 consensus receipt
 
 RECIPE
