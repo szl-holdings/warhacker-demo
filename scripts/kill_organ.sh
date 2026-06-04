@@ -21,20 +21,22 @@ echo " $VALID " | grep -q " $ORGAN " || { echo "unknown organ '$ORGAN'"; usage; 
 
 c_ok="\033[32m"; c_err="\033[31m"; c_off="\033[0m"
 
-# namespace == deployment name == organ (UDS bundle convention)
-echo "==> killing organ: $ORGAN (scale deployment/$ORGAN -> 0)"
-kubectl -n "$ORGAN" scale "deployment/$ORGAN" --replicas=0
+# namespace = szl-<organ>; deployment name = szl-<organ>
+NS="szl-${ORGAN}"
+DEPLOY="szl-${ORGAN}"
+echo "==> killing organ: $ORGAN (namespace: $NS, scale deployment/$DEPLOY -> 0)"
+kubectl -n "$NS" scale "deployment/$DEPLOY" --replicas=0
 
 # Block until scale-down completes (0 ready replicas).
 echo "    waiting for $ORGAN to reach 0 ready replicas..."
 for _ in $(seq 1 60); do
-  READY="$(kubectl -n "$ORGAN" get "deployment/$ORGAN" -o jsonpath='{.status.readyReplicas}' 2>/dev/null || echo 0)"
+  READY="$(kubectl -n "$NS" get "deployment/$DEPLOY" -o jsonpath='{.status.readyReplicas}' 2>/dev/null || echo 0)"
   READY="${READY:-0}"
   [ "$READY" = "0" ] && break
   sleep 1
 done
 
-READY="$(kubectl -n "$ORGAN" get "deployment/$ORGAN" -o jsonpath='{.status.readyReplicas}' 2>/dev/null || echo 0)"
+READY="$(kubectl -n "$NS" get "deployment/$DEPLOY" -o jsonpath='{.status.readyReplicas}' 2>/dev/null || echo 0)"
 READY="${READY:-0}"
 if [ "$READY" = "0" ]; then
   printf "${c_ok}    $ORGAN is DOWN (0 replicas). Witness offline.${c_off}\n"
@@ -46,7 +48,7 @@ fi
 # Count remaining live witnesses among the 4 consensus organs (a11oy/sentra/amaru/killinchu).
 LIVE=0
 for w in a11oy sentra amaru killinchu; do
-  r="$(kubectl -n "$w" get "deployment/$w" -o jsonpath='{.status.readyReplicas}' 2>/dev/null || echo 0)"
+  r="$(kubectl -n "szl-$w" get "deployment/szl-$w" -o jsonpath='{.status.readyReplicas}' 2>/dev/null || echo 0)"
   [ "${r:-0}" != "0" ] && LIVE=$((LIVE+1))
 done
 
