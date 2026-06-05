@@ -111,4 +111,5 @@ which `demo_run.sh` sources.
 
 ## Doctrine note
 
-v11 (**749/14/163**) is the public LOCKED doctrine and the canonical numbers for this demo. Doctrine v11 749/14/163 at kernel commit `c7c0ba17` — Λ = Conjecture 1 (not a theorem) · SLSA L1 honest.
+v11 (**749/14/163**) is the public LOCKED doctrine and the canonical numbers for this demo. Doctrine v11 749/14/163 at kernel commit `c7c0ba17` — Λ = Conjecture 1 (not a theorem) · SLSA Build L2 on all 5 organ images (cosign + `slsa.dev/provenance` attestation; L3 not claimed; the mesh bundle artifact itself is signed but not yet attested) · proved formulas = 5 {F1, F11, F12, F18, F19}.
+
