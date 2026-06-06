@@ -6,7 +6,6 @@ SOVEREIGN demo dry-run for the NVIDIA RTX 4060 Ti tower (Warhacker, June 16–19
 One command verifies the tower; one command runs the demo. Real shell scripts —
 nothing narrative.
 
-**Author:** Yachay `<yachay@szlholdings.dev>` · DCO · ADDITIVE
 **Doctrine:** v11 LOCKED public — **749 / 14 / 163** (declarations / unique axioms / tracked sorries)
 **License:** Apache-2.0
 **Consumes:** the cosign-signed bundle from
@@ -27,8 +26,8 @@ cd warhacker-demo/scripts
 sudo ./bootstrap_verify.sh
 #    -> TOWER IS DEMO-READY
 
-# 2. Run the demo: GPU k3d cluster, deploy the bundle, wait for 8 organs,
-#    open the operator shell, print the 3-command judge recipe.
+# 2. Run the demo: GPU k3d cluster, deploy the bundle, wait for the 8 mesh
+#    services, open the operator shell, print the 3-command judge recipe.
 ./demo_run.sh
 #    -> Demo is live at http://localhost:8080
 
@@ -37,7 +36,7 @@ sudo ./bootstrap_verify.sh
 ```
 
 Target: **cold boot to demo-ready in under 90 seconds** once tools are cached
-(k3d cluster ~15–25 s + `uds deploy` ~30–45 s + organ readiness ~10–20 s).
+(k3d cluster ~15–25 s + `uds deploy` ~30–45 s + service readiness ~10–20 s).
 First-ever run is longer because k3d/uds/cosign install and the local-LLM image
 warms; budget several minutes once, then it is cached on the tower.
 
@@ -48,24 +47,25 @@ warms; budget several minutes once, then it is cached on the tower.
 | Script | What it does |
 |---|---|
 | `scripts/bootstrap_verify.sh` | Fresh-tower pre-flight. Asserts driver ≥ 535, GPU name contains `4060 Ti`, VRAM ≥ 8 GB; routes the LLM profile (16 GB → Qwen2.5-7B-AWQ/vLLM, 8 GB → Phi-3.5-mini/llama.cpp); checks docker GPU passthrough; installs k3d / uds-cli / cosign if missing; `cosign verify-blob` → **Verified OK**; `zarf package inspect`. |
-| `scripts/demo_run.sh` | `k3d cluster create szl-warhacker --gpus all --port 8080:80@loadbalancer`; `uds deploy bundle.tar.zst --confirm`; waits for a11oy, amaru, sentra, rosie, killinchu, vessels, hatun-mcp, local-llm; opens `localhost:8080`; prints the 3-command judge recipe. |
-| `scripts/airgap_test.sh` | Loopback-only network namespace; runs the offline verification + 4-organ chain inside it; asserts no DNS, no HTTP, no Rekor push; exits 0 iff airgap holds, 1 with diagnostics otherwise. |
+| `scripts/demo_run.sh` | `k3d cluster create szl-warhacker --gpus all --port 8080:80@loadbalancer`; `uds deploy bundle.tar.zst --confirm`; waits for all 8 mesh service deployments (`a11oy`, `killinchu`, plus the a11oy capability services and `hatun-mcp` / `local-llm`); opens `localhost:8080`; prints the 3-command judge recipe. |
+| `scripts/airgap_test.sh` | Loopback-only network namespace; runs the offline verification + 4-witness consensus chain inside it; asserts no DNS, no HTTP, no Rekor push; exits 0 iff airgap holds, 1 with diagnostics otherwise. |
 | `scripts/thermal_guard.sh` | Background daemon. Polls GPU temp every 1 s; **WARN at 80 °C** (logs only), **THROTTLE at 85 °C** via `nvidia-smi -lgc 1500,2000`. Demo continues; warnings stay in the log file. |
-| `scripts/kill_organ.sh` | The demo kill-move. `kill_organ.sh <organ>` scales that deployment to 0 and reports live witness count. Kill 1 → 3-of-4 (canonical); kill 2 → 2-of-4 (REJECTED). |
-| `scripts/restore_organ.sh` | Inverse — scales an organ back to 1. |
+| `scripts/kill_organ.sh` | The demo kill-move. `kill_organ.sh <service>` scales that deployment to 0 and reports live witness count. Kill 1 → 3-of-4 (canonical); kill 2 → 2-of-4 (REJECTED). |
+| `scripts/restore_organ.sh` | Inverse — scales a service deployment back to 1. |
 
 ---
 
-## The 8 organs
+## The 8 mesh services
 
-The 7 flagship organs plus the local-LLM organ, all behind the operator shell:
+The demo deploys the two products plus their supporting mesh services, all behind the
+operator shell. The Kubernetes deployment names are:
 
 `a11oy` · `amaru` · `sentra` · `rosie` · `killinchu` · `vessels` · `hatun-mcp` · `local-llm`
 
-Four of them (a11oy, sentra, amaru, killinchu) are the **Khipu Consensus** witnesses:
-an action is canonical only with **≥ 3-of-4** independent DSSE signatures over the same
-`action_hash`. The protocol tolerates **f = 1** failed witness. See
-[`khipu-consensus`](https://github.com/szl-holdings/khipu-consensus).
+Four of these deployments (the a11oy policy, memory and gate services plus `killinchu`) are
+the **Khipu Consensus** witnesses: an action is canonical only with **≥ 3-of-4** independent
+DSSE signatures over the same `action_hash`. The protocol tolerates **f = 1** failed witness.
+See [`khipu-consensus`](https://github.com/szl-holdings/khipu-consensus).
 
 ---
 
@@ -100,7 +100,7 @@ logIndex 1693866388) pull from the release; it is too large to live in-repo.
 
 | | 4060 Ti 16 GB | 4060 Ti 8 GB |
 |---|---|---|
-| LLM organ | Qwen2.5-7B-Instruct-AWQ via vLLM | Phi-3.5-mini-instruct (Q4_K_M) via llama.cpp |
+| LLM service | Qwen2.5-7B-Instruct-AWQ via vLLM | Phi-3.5-mini-instruct (Q4_K_M) via llama.cpp |
 | Driver | ≥ 535 | ≥ 535 |
 | VRAM assert | ≥ 8 GB (16 GB → vLLM path) | ≥ 8 GB |
 
@@ -111,5 +111,5 @@ which `demo_run.sh` sources.
 
 ## Doctrine note
 
-v11 (**749/14/163**) is the public LOCKED doctrine and the canonical numbers for this demo. Doctrine v11 749/14/163 at kernel commit `c7c0ba17` — Λ = Conjecture 1 (not a theorem) · SLSA Build L2 on all 5 organ images (cosign + `slsa.dev/provenance` attestation; L3 not claimed; the mesh bundle artifact itself is signed but not yet attested) · proved formulas = 5 {F1, F11, F12, F18, F19}.
+v11 (**749/14/163**) is the public LOCKED doctrine and the canonical numbers for this demo. Doctrine v11 749/14/163 at kernel commit `c7c0ba17` — Λ = Conjecture 1 (not a theorem) · SLSA Build L2 on all 5 mesh service images (cosign + `slsa.dev/provenance` attestation; L3 not claimed; the mesh bundle artifact itself is signed but not yet attested) · proved formulas = 5 {F1, F11, F12, F18, F19}.
 
