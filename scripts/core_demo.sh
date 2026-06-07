@@ -87,7 +87,7 @@ for ev in \
   '{"action":"deploy","workload":"a11oy","verdict":"admit"}' \
   '{"action":"deploy","workload":"killinchu","verdict":"admit"}' \
   '{"action":"mission","track_id":"4840D6","verdict":"threat_assess"}' \
-  '{"action":"deploy","workload":"rosie","verdict":"admit"}'; do
+  '{"action":"deploy","workload":"receipts-server","verdict":"admit"}'; do
   curl -fsS -X POST "http://127.0.0.1:$PORT/receipt" -d "$ev" >/dev/null
 done
 curl -fsS "http://127.0.0.1:$PORT/receipts" > "$WORK/chain.json"
