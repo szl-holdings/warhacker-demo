@@ -1,115 +1,97 @@
+<!-- szl-investor-header -->
+<div align="center">
+
 # warhacker-demo
 
-> ⚠️ **STAGING — not production-grade.** This repository is a demo/dry-run surface and should not be treated as a production deployment.
+### A one-command **SOVEREIGN dry-run** that stands up the full SZL governed-AI substrate on a single air-gapped tower — and proves, with signed receipts, that an autonomous AI was caught the moment it crossed a line.
 
-SOVEREIGN demo dry-run for the NVIDIA RTX 4060 Ti tower (Warhacker, June 16–19).
-One command verifies the tower; one command runs the demo. Real shell scripts —
-nothing narrative.
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=flat-square)](LICENSE)
+[![Doctrine v11 LOCKED](https://img.shields.io/badge/Doctrine-v11_LOCKED_749%2F14%2F163-d4a444?style=flat-square)](https://github.com/szl-holdings/lutar-lean/commit/c7c0ba17)
+[![Λ Conjecture 1](https://img.shields.io/badge/Λ-Conjecture_1_(not_a_theorem)-3b82f6?style=flat-square)](https://github.com/szl-holdings/lutar-lean)
+[![SLSA L1 honest](https://img.shields.io/badge/SLSA-L1_honest-22c55e?style=flat-square)](https://slsa.dev/spec/v1.0/levels)
+[![UDS Core ≥1.5.0](https://img.shields.io/badge/UDS_Core-≥1.5.0-7c3aed?style=flat-square)](https://uds.defenseunicorns.com/)
 
-**Doctrine:** v11 LOCKED public — **749 / 14 / 163** (declarations / unique axioms / tracked sorries)
-**License:** Apache-2.0
-**Consumes:** the cosign-signed bundle from
-[`szl-warhacker-uds-v1.0.0`](https://github.com/szl-holdings/uds-bundles/releases/tag/szl-warhacker-uds-v1.0.0).
+[Live demo board](https://szlholdings-killinchu.hf.space/elite) · [a11oy warhacker tab](https://szlholdings-a11oy.hf.space/warhacker) · [Docs](https://szl-holdings.github.io/docs-site) · [SZL Holdings](https://a11oy.net)
 
----
+</div>
 
-## Cold-boot-to-demo recipe
+## 💡 Why it matters
 
-On a fresh Ubuntu 24.04 tower with the NVIDIA driver (≥ 535) already installed:
+Cannonico's Warhacker problem is blunt: when an autonomous drone loses contact mid-mission, *no one can answer whether the AI is still inside authorized parameters or has gone off script.* This repo is the reproducible proof that the SZL substrate answers that question **on a single sovereign tower, fully air-gapped** — independently monitoring AI behavior, catching the moment a line is crossed, and backing it with a permanent, tamper-evident record. The bar at [Defense Unicorns Warhacker](https://defenseunicorns.com/warhacker/) is *BUILD → PACKAGE → DEPLOY into a mission environment*, not a slide. This is the deploy.
 
-```bash
-git clone https://github.com/szl-holdings/warhacker-demo
-cd warhacker-demo/scripts
+## ▶️ Live demo
 
-# 1. Pre-flight: driver, GPU, docker GPU passthrough, k3d, uds, cosign,
-#    and a real cosign verify of the signed bundle. Installs missing tools.
-sudo ./bootstrap_verify.sh
-#    -> TOWER IS DEMO-READY
+The interactive 5-problem × 5-demo board runs live today:
 
-# 2. Run the demo: GPU k3d cluster, deploy the bundle, wait for the 8 mesh
-#    services, open the operator shell, print the 3-command judge recipe.
-./demo_run.sh
-#    -> Demo is live at http://localhost:8080
+- **Counter-UAS elite board:** [szlholdings-killinchu.hf.space/elite](https://szlholdings-killinchu.hf.space/elite)
+- **a11oy command-platform warhacker tab:** [szlholdings-a11oy.hf.space/warhacker](https://szlholdings-a11oy.hf.space/warhacker)
 
-# 3. (optional) Thermal guard daemon for the duration of the pitch
-./thermal_guard.sh &
-```
+Each demo runs a **real, in-image, pure-Python mechanism** (Merkle root · RFC-6962 inclusion proof · SHA-256 hash chain · point-in-polygon geofence · conformal prediction interval · CPA/TCPA closest-approach), emits a real `perf_counter` step timeline, runs an **always-on single-byte tamper negative test** that cryptographically breaks the signed Merkle chain, and produces a signed **DSSE / ECDSA-P256 Khipu receipt**.
 
-Target: **cold boot to demo-ready in under 90 seconds** once tools are cached
-(k3d cluster ~15–25 s + `uds deploy` ~30–45 s + service readiness ~10–20 s).
-First-ever run is longer because k3d/uds/cosign install and the local-LLM image
-warms; budget several minutes once, then it is cached on the tower.
-
----
-
-## Scripts
-
-| Script | What it does |
-|---|---|
-| `scripts/bootstrap_verify.sh` | Fresh-tower pre-flight. Asserts driver ≥ 535, GPU name contains `4060 Ti`, VRAM ≥ 8 GB; routes the LLM profile (16 GB → Qwen2.5-7B-AWQ/vLLM, 8 GB → Phi-3.5-mini/llama.cpp); checks docker GPU passthrough; installs k3d / uds-cli / cosign if missing; `cosign verify-blob` → **Verified OK**; `zarf package inspect`. |
-| `scripts/demo_run.sh` | `k3d cluster create szl-warhacker --gpus all --port 8080:80@loadbalancer`; `uds deploy bundle.tar.zst --confirm`; waits for all 8 mesh service deployments (`a11oy`, `killinchu`, plus the a11oy capability services and `hatun-mcp` / `local-llm`); opens `localhost:8080`; prints the 3-command judge recipe. |
-| `scripts/airgap_test.sh` | Loopback-only network namespace; runs the offline verification + 4-witness consensus chain inside it; asserts no DNS, no HTTP, no Rekor push; exits 0 iff airgap holds, 1 with diagnostics otherwise. |
-| `scripts/thermal_guard.sh` | Background daemon. Polls GPU temp every 1 s; **WARN at 80 °C** (logs only), **THROTTLE at 85 °C** via `nvidia-smi -lgc 1500,2000`. Demo continues; warnings stay in the log file. |
-| `scripts/kill_organ.sh` | The demo kill-move. `kill_organ.sh <service>` scales that deployment to 0 and reports live witness count. Kill 1 → 3-of-4 (canonical); kill 2 → 2-of-4 (REJECTED). |
-| `scripts/restore_organ.sh` | Inverse — scales a service deployment back to 1. |
-
----
-
-## The 8 mesh services
-
-The demo deploys the two products plus their supporting mesh services, all behind the
-operator shell. The Kubernetes deployment names are:
-
-`a11oy` · `amaru` · `sentra` · `rosie` · `killinchu` · `vessels` · `hatun-mcp` · `local-llm`
-
-Four of these deployments (the a11oy policy, memory and gate services plus `killinchu`) are
-the **Khipu Consensus** witnesses: an action is canonical only with **≥ 3-of-4** independent
-DSSE signatures over the same `action_hash`. The protocol tolerates **f = 1** failed witness.
-See [`khipu-consensus`](https://github.com/szl-holdings/khipu-consensus).
-
----
-
-## Fixtures
-
-`fixtures/` carries the **real** signed v1.0.0 artifacts (≈ 32 KB total), so the
-verification path is testable without network:
-
-```
-bundle.tar.zst            bundle SHA256 88b99afc…1119218 (matches the release)
-bundle.tar.zst.sig        ECDSA-P256, cosign v2.4.1
-bundle.tar.zst.sha256     integrity manifest
-bundle.tar.zst.rekor.bundle  offline Sigstore tlog proof (logIndex 1693757456)
-cosign.pub                fingerprint a4d73120…2341eb30
-PROOF.md                  upstream proof from the UDS Finish ledger
-```
-
-Verify the fixtures offline:
+## ⚡ Quick start (one command)
 
 ```bash
-cd fixtures
-sha256sum -c bundle.tar.zst.sha256
-cosign verify-blob --key cosign.pub --signature bundle.tar.zst.sig bundle.tar.zst   # Verified OK
+git clone https://github.com/szl-holdings/warhacker-demo.git
+cd warhacker-demo
+make tower-verify        # full sovereign dry-run on this machine, air-gap-safe
 ```
 
-For the full-size, image-embedding airgap bundle (`airgap-bundle.tar.zst`,
-logIndex 1693866388) pull from the release; it is too large to live in-repo.
+`make tower-verify` is designed for a single self-hosted tower (validated on an **NVIDIA RTX 4060 Ti** workstation): it provisions a local **k3d** cluster, deploys the SZL **UDS** bundle on top of UDS Core, runs the air-gap reachability test, exercises the **thermal guard**, and executes the **Khipu 3-of-4 quorum kill-move** — then prints a signed pass/fail receipt. No external network is required after image pull.
+
+## 🔍 How it works
+
+The substrate enforces policy and emits signed, replayable audit receipts so every AI action can be verified after the fact. The drone-oversight loop (problem **P1 CANNONICO**, labelled **REAL TODAY**) independently watches the autonomous agent and, when an authorized envelope is breached, halts the action and writes a tamper-evident receipt to a hash-linked Merkle DAG. The remaining four problem families (Tychee, HANGAR2APPS, Cyber-RTS, Raven) run the **same proven horizontal substrate on clearly-labelled sample data** — they are **ROADMAP**, not claimed as fielded capability.
 
 ---
 
-## Hardware target
+<details>
+<summary><strong>📐 Full technical detail, the 25 demos, and the honesty boundary</strong></summary>
 
-| | 4060 Ti 16 GB | 4060 Ti 8 GB |
+## The 25 demos (5 problems × 5)
+
+| Problem | Key | Status | Demos |
+|---|---|---|---|
+| **P1 CANNONICO** — drone AI oversight | `cannonico` | **REAL TODAY** | C1 Altitude-Envelope Breach · C2 Geofence Keep-Out Incursion · C3 AI-Confidence Collapse · C4 Comms-Loss Autonomous Drift · C5 Tampered Flight-Log Detection |
+| **P2 TYCHEE** — satellite ground software | `tychee` | ROADMAP · substrate-real | T1 Orbital Conjunction · T2 Satellite-Health Anomaly · T3 Command Verification (3-of-4 Byzantine) · T4 Δv Maneuver STL · T5 Ground-SW Replay Determinism |
+| **P3 HANGAR2APPS** — deployment health screening | `hangar2apps` | ROADMAP · substrate-real | H1 Vital-Sign Anomaly (conformal) · H2 Clinical Tipping-Point · H3 Health-Record Summarization · H4 Tamper-Proof Medical-Record Chain · H5 Offline / Sovereign Edge Screening |
+| **P4 CYBER-RTS** — trajectory / orbit viz | `cyber_rts` | ROADMAP · substrate-real | CR1 Orbital Engagement Geometry · CR2 Space-Domain-Awareness Galaxy · CR3 RF Signal Attribution · CR4 Trajectory Conformal Tube · CR5 Byzantine Consensus |
+| **P5 RAVEN** — AI at the tactical edge | `raven` | ROADMAP · substrate-real | R1 Boids Swarm · R2 Sensor-Fusion Ellipse · R3 Mesh-Network Graph · R4 Cascade Tree · R5 Tactical Galaxy |
+
+The nominal/tamper toggle is real: for the tamper-evident chains (e.g. `hangar2apps/H4`), a single flipped byte moves `merkle_match` from `True` → `False` and surfaces **TAMPER DETECTED at session #N** with the exact break index.
+
+## What the tower dry-run actually verifies
+
+| Stage | Mechanism | Pass condition |
 |---|---|---|
-| LLM service | Qwen2.5-7B-Instruct-AWQ via vLLM | Phi-3.5-mini-instruct (Q4_K_M) via llama.cpp |
-| Driver | ≥ 535 | ≥ 535 |
-| VRAM assert | ≥ 8 GB (16 GB → vLLM path) | ≥ 8 GB |
+| **k3d + UDS deploy** | Local k3d cluster, SZL bundle on UDS Core (`>=1.5.0`), Zarf (`>=0.77.0`) | All pods Ready; `Package` CR reconciled |
+| **Air-gap test** | Egress blocked; app runs from vendored libs only (zero runtime CDN) | Demos serve with no outbound network |
+| **Thermal guard** | Tower thermal envelope watched during load | No throttle/over-temp during run |
+| **Khipu 3-of-4 kill-move** | Byzantine quorum halts a non-compliant action | Action halted; signed receipt emitted |
 
-`bootstrap_verify.sh` writes the chosen profile to `~/szl-warhacker/.llm_profile.env`,
-which `demo_run.sh` sources.
+## Honesty boundary (binding — verified, never inflated)
+
+- **Λ = Conjecture 1, never a theorem.** The *unconditional* uniqueness claim is machine-checked **false** (`Round13.maxAgg_ne_Lambda` counterexample); only the **conditional** CUT-2 slice-multiplicativity uniqueness is proven (`lambda_unique_of_separable`, axiom-free, 0 sorry, CI-green). See [lutar-lean](https://github.com/szl-holdings/lutar-lean).
+- **Proven PURIQ formulas = exactly 5** {F1, F11, F12, F18, F19} — kernel-verified, axiom-free (`Lutar.Wave8.AxiomDisclosure.locked_count_five` proves the count `= 5` by `decide`). The broader experimental `main` corpus (≈1323 decls / 23 axioms / CI-green) is reported **separately** and is **never folded into the locked 5**.
+- **Byzantine BFT optimality = Khipu Conjecture 2 (OPEN).**
+- **Supply chain: SLSA Build L1 honest** (cosign keyless-signed, Rekor-anchored). L2 verified-provenance is on the **roadmap**; bundle-level attestation is **not yet earned**. **L3 / FedRAMP / Iron Bank / CMMC are never claimed.**
+- **CANNONICO is the only family labelled REAL TODAY.** The other four demonstrate the same substrate on clearly-labelled sample data and are explicitly **ROADMAP**.
+- No fabricated metrics; no inflated proof counts.
+
+## Event context
+
+Defense Unicorns **Warhacker**: 16–19 June 2026, San Diego, CA — a build/package/deploy hackathon whose stated success measure is *number of apps in mission environments*, packaged on open-source **UDS Core** for rapid deployment anywhere, cloud to edge ([Defense Unicorns — Warhacker](https://defenseunicorns.com/warhacker/)). The five challenge problems above are the published owners' asks.
+
+</details>
+
+<!-- szl-doctrine-footer -->
 
 ---
 
-## Doctrine note
+### Cross-references
 
-v11 (**749/14/163**) is the public LOCKED doctrine and the canonical numbers for this demo. Doctrine v11 749/14/163 at kernel commit `c7c0ba17` — Λ = Conjecture 1 (not a theorem) · SLSA Build L2 on all 5 mesh service images (cosign + `slsa.dev/provenance` attestation; L3 not claimed; the mesh bundle artifact itself is signed but not yet attested) · proved formulas = 5 {F1, F11, F12, F18, F19}.
+- **Formal proofs / kernel:** [lutar-lean](https://github.com/szl-holdings/lutar-lean) (kernel `c7c0ba17`)
+- **Command platform:** [a11oy](https://github.com/szl-holdings/a11oy) · **Counter-UAS / drones:** [killinchu](https://github.com/szl-holdings/killinchu)
+- **Deployment bundles:** [uds-bundles](https://github.com/szl-holdings/uds-bundles) · [szl-uds-deployment](https://github.com/szl-holdings/szl-uds-deployment)
+- **Receipts corpus:** [szl-lake](https://github.com/szl-holdings/szl-lake) · **Papers / doctrine:** [szl-papers](https://github.com/szl-holdings/szl-papers)
 
+<sub>Λ Conjecture 1 (not a theorem) · locked-proven = exactly 5 {F1,F11,F12,F18,F19} · experimental main ≈1323/23 reported separately · 749/14/163 v11 LOCKED (kernel `c7c0ba17`) · SLSA L1 honest · L2 verified-provenance on roadmap · no FedRAMP / Iron Bank / CMMC · [SZL Holdings](https://a11oy.net) · Apache-2.0</sub>
