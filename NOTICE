@@ -5,3 +5,17 @@ Licensed under the Apache License, Version 2.0.
 Author: Yachay <yachay@szlholdings.dev>
 Consumes the cosign-signed UDS bundle szl-warhacker-uds-v1.0.0.
 Doctrine v11 LOCKED (749/14/163).
+
+------------------------------------------------------------------------
+UDS / Defense Unicorns non-affiliation
+------------------------------------------------------------------------
+SZL Holdings is NOT affiliated with, endorsed by, or sponsored by Defense
+Unicorns. "UDS", "Unicorn Delivery Service", "UDS Core", and "Defense
+Unicorns" are names/marks of Defense Unicorns, used here only to describe
+interoperability. This demo deploys an SZL-authored UDS bundle on top of
+the open-source UDS Core platform.
+
+UDS Core is licensed AGPL-3.0. SZL does NOT redistribute, fork, or adopt
+the UDS Core codebase; we follow its public packaging patterns only
+(pattern-only, not a derivative work). The SZL bundle and the artifacts in
+this repository are SZL-authored and Apache-2.0 licensed.
