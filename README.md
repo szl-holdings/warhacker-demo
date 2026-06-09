@@ -81,6 +81,10 @@ The nominal/tamper toggle is real: for the tamper-evident chains (e.g. `hangar2a
 
 Defense Unicorns **Warhacker**: 16–19 June 2026, San Diego, CA — a build/package/deploy hackathon whose stated success measure is *number of apps in mission environments*, packaged on open-source **UDS Core** for rapid deployment anywhere, cloud to edge ([Defense Unicorns — Warhacker](https://defenseunicorns.com/warhacker/)). The five challenge problems above are the published owners' asks.
 
+## Non-affiliation
+
+SZL Holdings is **not affiliated with, endorsed by, or sponsored by Defense Unicorns**. "UDS", "UDS Core", and "Defense Unicorns" are names/marks of Defense Unicorns, referenced here only to describe interoperability. This repo deploys an SZL-authored UDS bundle on top of the open-source **UDS Core** platform; UDS Core (AGPL-3.0) is followed **pattern-only** — never forked or adopted. See [`NOTICE`](NOTICE).
+
 </details>
 
 <!-- szl-doctrine-footer -->
@@ -95,3 +99,4 @@ Defense Unicorns **Warhacker**: 16–19 June 2026, San Diego, CA — a build/pac
 - **Receipts corpus:** [szl-lake](https://github.com/szl-holdings/szl-lake) · **Papers / doctrine:** [szl-papers](https://github.com/szl-holdings/szl-papers)
 
 <sub>Λ Conjecture 1 (not a theorem) · locked-proven = exactly 5 {F1,F11,F12,F18,F19} · experimental main ≈1323/23 reported separately · 749/14/163 v11 LOCKED (kernel `c7c0ba17`) · SLSA L1 honest · L2 verified-provenance on roadmap · no FedRAMP / Iron Bank / CMMC · [SZL Holdings](https://a11oy.net) · Apache-2.0</sub>
+
