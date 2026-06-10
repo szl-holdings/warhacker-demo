@@ -71,7 +71,7 @@ The nominal/tamper toggle is real: for the tamper-evident chains (e.g. `hangar2a
 ## Honesty boundary (binding — verified, never inflated)
 
 - **Λ = Conjecture 1, never a theorem.** The *unconditional* uniqueness claim is machine-checked **false** (`Round13.maxAgg_ne_Lambda` counterexample); only the **conditional** CUT-2 slice-multiplicativity uniqueness is proven (`lambda_unique_of_separable`, axiom-free, 0 sorry, CI-green). See [lutar-lean](https://github.com/szl-holdings/lutar-lean).
-- **Proven PURIQ formulas = exactly 5** {F1, F11, F12, F18, F19} — kernel-verified, axiom-free (`Lutar.Wave8.AxiomDisclosure.locked_count_five` proves the count `= 5` by `decide`). The broader experimental `main` corpus (≈1323 decls / 23 axioms / CI-green) is reported **separately** and is **never folded into the locked 5**.
+- **Proven PURIQ formulas = exactly 8** {F1, F4, F7, F11, F12, F18, F19, F22} — kernel-verified, axiom-free (`Lutar.Wave8.AxiomDisclosure.locked_count_eight` proves the count `= 8` by `decide`). The broader experimental `main` corpus (≈1323 decls / 23 axioms / CI-green) is reported **separately** and is **never folded into the locked 8**.
 - **Byzantine BFT optimality = Khipu Conjecture 2 (OPEN).**
 - **Supply chain: SLSA Build L1 honest** (cosign keyless-signed, Rekor-anchored). L2 verified-provenance is on the **roadmap**; bundle-level attestation is **not yet earned**. **L3 / FedRAMP / Iron Bank / CMMC are never claimed.**
 - **CANNONICO is the only family labelled REAL TODAY.** The other four demonstrate the same substrate on clearly-labelled sample data and are explicitly **ROADMAP**.
@@ -98,5 +98,5 @@ SZL Holdings is **not affiliated with, endorsed by, or sponsored by Defense Unic
 - **Deployment bundles:** [uds-bundles](https://github.com/szl-holdings/uds-bundles) · [szl-uds-deployment](https://github.com/szl-holdings/szl-uds-deployment)
 - **Receipts corpus:** [szl-lake](https://github.com/szl-holdings/szl-lake) · **Papers / doctrine:** [szl-papers](https://github.com/szl-holdings/szl-papers)
 
-<sub>Λ Conjecture 1 (not a theorem) · locked-proven = exactly 5 {F1,F11,F12,F18,F19} · experimental main ≈1323/23 reported separately · 749/14/163 v11 LOCKED (kernel `c7c0ba17`) · SLSA L1 honest · L2 verified-provenance on roadmap · no FedRAMP / Iron Bank / CMMC · [SZL Holdings](https://a11oy.net) · Apache-2.0</sub>
+<sub>Λ Conjecture 1 (not a theorem) · locked-proven = exactly 8 {F1,F4,F7,F11,F12,F18,F19,F22} · experimental main ≈1323/23 reported separately · 749/14/163 v11 LOCKED (kernel `c7c0ba17`) · SLSA L1 honest · L2 verified-provenance on roadmap · no FedRAMP / Iron Bank / CMMC · [SZL Holdings](https://a11oy.net) · Apache-2.0</sub>
 
