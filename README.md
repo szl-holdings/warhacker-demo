@@ -33,10 +33,18 @@ Each demo runs a **real, in-image, pure-Python mechanism** (Merkle root · RFC-6
 ```bash
 git clone https://github.com/szl-holdings/warhacker-demo.git
 cd warhacker-demo
-make tower-verify        # full sovereign dry-run on this machine, air-gap-safe
+make rehearse            # no cluster, no GPU, no secret — the core proof in <2 min
 ```
 
-`make tower-verify` is designed for a single self-hosted tower (validated on an **NVIDIA RTX 4060 Ti** workstation): it provisions a local **k3d** cluster, deploys the SZL **UDS** bundle on top of UDS Core, runs the air-gap reachability test, exercises the **thermal guard**, and executes the **Khipu 3-of-4 quorum kill-move** — then prints a signed pass/fail receipt. No external network is required after image pull.
+`make rehearse` runs the **core proof locally** (CPU-only): it boots the real `szl-receipts-server`, emits an Ed25519-signed, hash-chained receipt chain, verifies it offline, then flips a byte and shows the signature **and** the chain break. This is the part that is **REAL TODAY** and needs no tower.
+
+For the **full sovereign dry-run** on a self-hosted tower (validated on an **NVIDIA RTX 4060 Ti** workstation):
+
+```bash
+make tower-verify        # GPU + Docker + sudo required; air-gap-safe
+```
+
+`make tower-verify` provisions a local **k3d** cluster, deploys the SZL **UDS** bundle on top of UDS Core, and prints a signed pass/fail receipt. Run `make airgap-test` for the air-gap reachability test and `make thermal-guard` for the GPU thermal daemon. No external network is required after image pull. Run `make help` to list every target (each is a script under `scripts/` you can also run directly).
 
 ## 🔍 How it works
 
