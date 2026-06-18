@@ -1,7 +1,8 @@
 # SZL UDS — Warhacker Judge Proof Packet
 
 **Author:** Yachay `<yachay@szlholdings.dev>` · DCO · ADDITIVE
-**Bundle:** `szl-warhacker-uds-v1.0.0` · zarf v0.51.0 · cosign v2.4.1
+**Bundle:** `szl-warhacker-uds-v1.0.0` · built with zarf v0.51.0 · cosign v2.4.1
+*(tower deploys it via uds-cli v0.32.0 / Zarf v0.77.0 — see `scripts/tower_bootstrap.sh`; signed digest unchanged)*
 **Doctrine:** v11 LOCKED public — **749 declarations / 14 unique axioms / 163 tracked sorries**
 
 ---

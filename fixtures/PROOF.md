@@ -15,6 +15,12 @@
 | Public key | `cosign.pub` |
 | Rekor bundle | `bundle.tar.zst.rekor.bundle` (offline-verifiable tlog proof) |
 
+> **Build- vs deploy-time tooling.** The committed `bundle.tar.zst` artifact was *built* with
+> zarf v0.51.0 (the version above is the build record — do not rewrite it). The demo *tower*
+> deploys it with newer pinned tooling — uds-cli v0.32.0 (bundles Zarf v0.77.0), per
+> `scripts/tower_bootstrap.sh` and the README. The signed digest is unchanged either way; only
+> the deploying CLI differs.
+
 ## Signing identity
 
 - **keyid:** `szlholdings-cosign`
