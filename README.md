@@ -11,7 +11,7 @@
 [![SLSA L1 honest](https://img.shields.io/badge/SLSA-L1_honest-22c55e?style=flat-square)](https://slsa.dev/spec/v1.0/levels)
 [![UDS Core ≥1.5.0](https://img.shields.io/badge/UDS_Core-≥1.5.0-7c3aed?style=flat-square)](https://uds.defenseunicorns.com/)
 
-[Live demo board](https://szlholdings-killinchu.hf.space/elite) · [a11oy warhacker tab](https://szlholdings-a11oy.hf.space/warhacker) · [Docs](https://szl-holdings.github.io/docs-site) · [SZL Holdings](https://a11oy.net)
+[Live demo board](https://szlholdings-killinchu.hf.space/elite) · [a11oy warhacker tab](https://szlholdings-a11oy.hf.space/warhacker) · [Docs](https://szl-holdings.github.io/docs-site) · [SZL Holdings](https://a-11-oy.com)
 
 </div>
 
@@ -108,5 +108,5 @@ SZL Holdings is **not affiliated with, endorsed by, or sponsored by Defense Unic
 - **Deployment bundles:** [uds-bundles](https://github.com/szl-holdings/uds-bundles) · [szl-uds-deployment](https://github.com/szl-holdings/szl-uds-deployment)
 - **Receipts corpus:** [szl-lake](https://github.com/szl-holdings/szl-lake) · **Papers / doctrine:** [szl-papers](https://github.com/szl-holdings/szl-papers)
 
-<sub>Λ Conjecture 1 (not a theorem) · locked-proven = exactly 8 {F1,F4,F7,F11,F12,F18,F19,F22} · experimental main ≈1323/23 reported separately · 749/14/163 v11 LOCKED (kernel `c7c0ba17`) · SLSA L1 honest · L2 verified-provenance on roadmap · no FedRAMP / Iron Bank / CMMC · [SZL Holdings](https://a11oy.net) · Apache-2.0</sub>
+<sub>Λ Conjecture 1 (not a theorem) · locked-proven = exactly 8 {F1,F4,F7,F11,F12,F18,F19,F22} · experimental main ≈1323/23 reported separately · 749/14/163 v11 LOCKED (kernel `c7c0ba17`) · SLSA L1 honest · L2 verified-provenance on roadmap · no FedRAMP / Iron Bank / CMMC · [SZL Holdings](https://a-11-oy.com) · Apache-2.0</sub>
 
