@@ -101,6 +101,8 @@ SZL Holdings is **not affiliated with, endorsed by, or sponsored by Defense Unic
 
 ### Cross-references
 
+> **Deployment sequence:** [szl-build-env](https://github.com/szl-holdings/szl-build-env) (laptop dev environment) → **warhacker-demo** (sovereign tower dry-run) → [szl-uds-deployment](https://github.com/szl-holdings/szl-uds-deployment) (live production reference deployment). `warhacker-demo` is the RTX 4060 Ti verification demo; for production cluster deployments use `szl-uds-deployment`.
+
 - **Formal proofs / kernel:** [lutar-lean](https://github.com/szl-holdings/lutar-lean) (kernel `c7c0ba17`)
 - **Command platform:** [a11oy](https://github.com/szl-holdings/a11oy) · **Counter-UAS / drones:** [killinchu](https://github.com/szl-holdings/killinchu)
 - **Deployment bundles:** [uds-bundles](https://github.com/szl-holdings/uds-bundles) · [szl-uds-deployment](https://github.com/szl-holdings/szl-uds-deployment)
