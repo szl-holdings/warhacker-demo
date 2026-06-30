@@ -3,7 +3,7 @@
 SHELL := bash
 .DEFAULT_GOAL := help
 
-.PHONY: help tower-verify bootstrap demo rehearse airgap-test thermal-guard
+.PHONY: help tower-verify bootstrap demo rehearse rehearse-ci airgap-test thermal-guard
 
 help: ## List targets
 	@grep -hE '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) \
@@ -22,6 +22,9 @@ demo: ## Boot the cluster, deploy the bundle, open the operator shell
 
 rehearse: ## No-cluster, no-GPU core proof: signed receipt chain + tamper test
 	bash scripts/rehearse.sh
+
+rehearse-ci: ## Hermetic CI rehearsal: ephemeral key, self-contained, writes artifacts/
+	bash scripts/rehearse_ci.sh
 
 airgap-test: ## Prove the demo runs with zero outbound network (needs sudo)
 	sudo bash scripts/airgap_test.sh

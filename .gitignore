@@ -1,3 +1,4 @@
 *.log
 .llm_profile.env
 /tmp/
+/artifacts/

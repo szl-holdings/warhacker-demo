@@ -1,0 +1,46 @@
+name: CI
+
+# Runs the flagship proof automatically on every push/PR. `make rehearse-ci` is
+# the hermetic variant of `make rehearse`: it generates an EPHEMERAL key and runs
+# the receipts-governance proof self-contained (no sibling repo, no cluster, no
+# GPU, no secret), then uploads the signed receipt chain as a workflow artifact.
+# Honest: this is the receipts layer only — the same scope as `make rehearse`.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rehearse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        with:
+          python-version: "3.12"
+
+      - name: Install proof deps (cryptography for Ed25519/DSSE)
+        run: |
+          python -m pip install --upgrade pip
+          pip install cryptography
+
+      - name: make rehearse-ci (hermetic signed-receipt proof + tamper test)
+        run: make rehearse-ci
+
+      - name: Upload signed receipt proof
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: warhacker-rehearse-proof
+          path: artifacts/
+          if-no-files-found: error
