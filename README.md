@@ -61,7 +61,7 @@ The substrate enforces policy and emits signed, replayable audit receipts so eve
 |---|---|---|---|
 | **P1 CANNONICO** — drone AI oversight | `cannonico` | **REAL TODAY** | C1 Altitude-Envelope Breach · C2 Geofence Keep-Out Incursion · C3 AI-Confidence Collapse · C4 Comms-Loss Autonomous Drift · C5 Tampered Flight-Log Detection |
 | **P2 TYCHEE** — satellite ground software | `tychee` | ROADMAP · substrate-real | T1 Orbital Conjunction · T2 Satellite-Health Anomaly · T3 Command Verification (3-of-4 Byzantine) · T4 Δv Maneuver STL · T5 Ground-SW Replay Determinism |
-| **P3 HANGAR2APPS** — deployment health screening | `hangar2apps` | ROADMAP · substrate-real | H1 Vital-Sign Anomaly (conformal) · H2 Clinical Tipping-Point · H3 Health-Record Summarization · H4 Tamper-Proof Medical-Record Chain · H5 Offline / Sovereign Edge Screening |
+| **P3 HANGAR2APPS** — deployment health screening | `hangar2apps` | ROADMAP · substrate-real | H1 Vital-Sign Anomaly (conformal) · H2 Clinical Tipping-Point · H3 Health-Record Summarization · H4 Tamper-Evident Medical-Record Chain · H5 Offline / Sovereign Edge Screening |
 | **P4 CYBER-RTS** — trajectory / orbit viz | `cyber_rts` | ROADMAP · substrate-real | CR1 Orbital Engagement Geometry · CR2 Space-Domain-Awareness Galaxy · CR3 RF Signal Attribution · CR4 Trajectory Conformal Tube · CR5 Byzantine Consensus |
 | **P5 RAVEN** — AI at the tactical edge | `raven` | ROADMAP · substrate-real | R1 Boids Swarm · R2 Sensor-Fusion Ellipse · R3 Mesh-Network Graph · R4 Cascade Tree · R5 Tactical Galaxy |
 
