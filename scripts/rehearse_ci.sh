@@ -43,13 +43,13 @@ hdr
 echo
 
 KEY="$(mktemp)"; trap 'rm -f "$KEY"' EXIT
-echo "[1/2] Generate EPHEMERAL Ed25519 signing key (honest: not a persistent identity)"
+echo "[1/3] Generate EPHEMERAL Ed25519 signing key (honest: not a persistent identity)"
 openssl genpkey -algorithm ed25519 -out "$KEY" 2>/dev/null \
   && echo "  OK   ephemeral Ed25519 key generated (discarded at exit)" \
   || { printf "${c_err}  FAIL${c_off} openssl could not generate an Ed25519 key\n"; exit 1; }
 echo
 
-echo "[2/2] Emit -> verify -> tamper, self-contained (same scheme as core_demo.sh)"
+echo "[2/3] Emit -> verify -> tamper, self-contained (same scheme as core_demo.sh)"
 echo "------------------------------------------------------------------------------"
 ARTIFACT_DIR="$ARTIFACT_DIR" python3 - "$KEY" <<'PY'
 import sys, os, json, base64, hashlib
@@ -151,6 +151,11 @@ print(f"  artifacts written to {ART}/ (receipt-chain.json, ephemeral-ed25519.pub
 PY
 echo
 
+echo "[3/3] Adversarial suite — distinct forgery classes must all be rejected"
+echo "------------------------------------------------------------------------------"
+python3 "$HERE/receipt_adversarial_test.py"
+echo
+
 hdr
-printf "${c_ok}RESULT: PASS -- receipts verify; tamper rejected${c_off}\n"
+printf "${c_ok}RESULT: PASS -- receipts verify; tamper + forgery classes rejected${c_off}\n"
 hdr
