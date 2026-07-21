@@ -1,3 +1,5 @@
+> **ARCHIVED — final state.** This repository is **archived** (2026-07-21, org rationalization pass). The Warhacker 2026 SOVEREIGN dry-run it packages has concluded; the companion deployment repo `szl-uds-deployment` is archived for the same reason. The demo scripts and receipt-forgery test suite remain readable here as a historical record.
+
 <!-- szl-investor-header -->
 <div align="center">
 
